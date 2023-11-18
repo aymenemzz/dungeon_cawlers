@@ -1,15 +1,17 @@
 #ifndef CHAMBRE_H
 #define CHAMBRE_H
 
-typedef struct salle{
-
-char **enceinte ;
-int largeur;
-int longueur;
-int id_salle;
+typedef struct s_salle
+{
+    char **enceinte ;
+    int largeur;
+    int longueur;
+    int id_salle;
 }salle;
 
-void init_salle(salle *s, int largeur, int longueur);
+typedef salle* a_salle;
+
+a_salle init_salle(int largeur, int longueur);
 
 void affiche_salle(salle *s);
 

@@ -4,10 +4,12 @@
 #include <string.h>
 
 //Variable statique pour maintenir le dernier identifiant attribué
+
 static int dernierIdAttribue_salle = 0;
 
 //initialisation d'une salle
-void init_salle(salle *s, int largeur, int longueur){
+a_salle init_salle( int largeur, int longueur){
+    salle *s = malloc(sizeof(int)*3 + (sizeof(char)*longueur)*largeur);
 	s->largeur = largeur;
 	s->longueur = longueur;
 	
@@ -17,7 +19,8 @@ void init_salle(salle *s, int largeur, int longueur){
         	(s->enceinte)[i] = (char*)malloc(largeur*sizeof(char));
 	}
 		
-	// attribution de l'identifiant 
+	// attribution de l'identifiant
+
 	if (s != NULL) {
         s->id_salle = ++dernierIdAttribue_salle;
     	}
@@ -48,36 +51,37 @@ void affiche_salle(salle *s){
 //sauvegarder une salle dans un fichier
 void sauvegarder_salle(salle *s){
 	FILE *fichier;
-	
+
+    //création du nom du fichier en utilisant l'id de la salle
+    char nom_fichier[20];
+    sprintf(nom_fichier,"salle%d.txt",s->id_salle);
+
 	//erreur d'ouverture fichier
 	if (fichier == NULL) {
-        fprintf(stderr, "Impossible d'ouvrir le fichier %s pour l'écriture.\n", nom_fichier);
+        printf("Impossible d'ouvrir le fichier %s pour l'écriture.\n", nom_fichier);
         return;
-    	}
-    	
-    	//création du nom du fichier en utilisant l'id de la salle 
-	char nom_fichier[20];
-	sprintf(nom_fichier,"salle%d.txt",s->id_salle);
-	
+    }
+
 	//ouverture du fichier 
-	fichier = fopen(nom_fichier,"w");
+	fichier = fopen(nom_fichier,"w+");
 	
-	//écriture des dimensions de la salle 
-	fprintf(fichier,"%d\n",s->largeur);
-	fprintf(fichier,"%d\n", s->longueur);
+	//écriture des dimensions de la salle
+
+	fprintf(fichier,"%d -> largeur \n",s->largeur);
+	fprintf(fichier,"%d -> longueur \n", s->longueur);
 	
 	//écriture de la salle dans le fichier crée	
 	for (int i = 0; i < s->longueur; i++) {
         for (int j = 0; j < s->largeur; j++) {
         	if((s->enceinte)[i][j]=='#'){
-            		fprintf(fichier,"%c", (s->enceinte)[i][j]);
-            	}
-            	else {
-            	fprintf(fichier,"%c",' ');
-            	}
+            	fprintf(fichier,"%c", (s->enceinte)[i][j]);
+            }
+            else {
+                fprintf(fichier,"%c",' ');
+            }
         }
         fprintf(fichier,"\n");
-    	}
+    }
     fprintf(fichier,"\n");
     
     //fermeture du fichier 

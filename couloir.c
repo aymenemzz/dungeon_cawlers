@@ -11,13 +11,16 @@
 
 //--------------------------------------------------------------------------------
 
-void init(couloir *c, int largeur, const char *sequence){
+void init(couloir *c,const char *sequence){
 	c->largeur = largeur;
 	c->sequence = malloc(strlen(sequence) + 1);
 	strcpy(c->sequence,sequence);
+
 	count_max_length(c);
 	count_max_ligne(c);
-	    // Allouer de la mémoire pour les lignes
+
+    // Allouer de la mémoire pour les lignes
+
     c->tableau = (char**)malloc(c->hauteur * sizeof(char*));
 
     // Allouer de la mémoire pour les colonnes

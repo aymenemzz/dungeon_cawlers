@@ -9,13 +9,14 @@
 
 //--------------------------------------------------------------------------------
 
-typedef struct my_couloir{
-int hauteur; //nombre de lignes
-char *sequence;
-int largeur; //largeur des couloirs
-int ligne; //taille de la ligne
-char **tableau;
-}couloir;
+typedef struct my_couloir
+{
+    int hauteur; //nombre de lignes
+    char *sequence;
+    int largeur; //largeur des couloirs
+    int ligne; //taille de la ligne
+    char **tableau;
+} couloir;
 
 //--------------------------------------------------------------------------------
 
