@@ -50,6 +50,9 @@ a_dungeon init_dungeon();
 void free_dungeon_ram(a_dungeon this);
 FILE* save_dungeon(a_dungeon this);
 
+//AFFICHAGE D'UN DONJON------------------------
+void print_dungeon(a_dungeon this);
+
 
 
 #endif //DUNGEON_CAWLERS_DUNGEON_H

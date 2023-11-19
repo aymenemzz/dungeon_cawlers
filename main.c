@@ -9,39 +9,46 @@
 #include <math.h>
 #include "couloir.h" 
 #include "chambre.h"
+#include "dungeon.h"
 #include <time.h>
 
 //--------------------------------------------------------------------------------
 
 #define l 1// n est la largeur des couloirs, ici ils seront définis à 1, mais c'est tout a fait possible d'avoir une largeur personalisée
 int main(){
+    int check_response = 1;
+    char response[5];
+    a_dungeon current_dungeon = NULL;
 
-a_salle s1 = creer_salle(10,22);
-affiche_salle(s1);
-sauvegarder_salle(s1);
+    do {
+        printf("BINEVENUE DANS LE DUNGEON CRAWLER CREATOR\n "
+               "\nQue souhaitez vous faire ?\n"
+               "    - Charger un donjon (L)\n"
+               "    - Creer un donjon (C)\n"
+               "    - Supprimer un donjon (D)\n"
+        );
+        fgets(response, 2, stdin);
+        switch (response[0]) {
+            case ('L'):
+                //REORIENT2 VERS LA FONCTION DE CHARGEMENT DES DONJONS
+                //PAS PRETE
+                check_response = 0;
+                break;
+            case ('C'):
+                current_dungeon = init_dungeon();
+                check_response = 0;
+                break;
+            case ('D'):
+                //REORIENT2 VERS LA FONCTION DE SUPPRESSION DES DONJONS
+                //PAS PRETE
+                check_response = 0;
+                break;
+            default:
+                printf("Le caractere n'as pas ete reconnu ou n'est pas dans la selection veuillez réessayer");
 
-/*
-a_salle s2 = creer_salle(43,16);
-affiche_salle(s2);
-sauvegarder_salle(s2);
+        }
+    } while (check_response != 0);
 
-a_couloir c1 = creer_couloir(2,"SSSSSEEEESSS");
-affiche_couloir(c1);
-sauvegarder_couloir(c1);
-
-a_couloir c2 = creer_couloir(2,"NNNNNNNWWWWW");
-affiche_couloir(c2);
-sauvegarder_couloir(c2);*/
-
-a_salle s3 = recup_salle("chambres/salle1.txt");
-//printf("%d\n%d\n",s3->largeur,s3->longueur);
-affiche_salle(s3);
-sauvegarder_salle(s3);
-printf("%d\n",s3->id_salle);
-//free(c1);
-//free(s2);
-free(s3);
-free(s1);
 return 0;
 }
 
