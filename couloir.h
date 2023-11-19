@@ -9,22 +9,24 @@
 
 //--------------------------------------------------------------------------------
 
-typedef struct my_couloir
-{
-    int hauteur; //nombre de lignes
-    char *sequence;
-    int largeur; //largeur des couloirs
-    int ligne; //taille de la ligne
-    char **tableau;
-} couloir;
+typedef struct my_couloir{
+int hauteur; //nombre de lignes
+char *sequence;//sequence des déplacements dans le couloir
+int largeur; //largeur des couloirs
+int ligne; //taille de la ligne
+char **tableau;//tableau qui contient le couloir
+int id_couloir;//id unique d'un couloir
+}couloir;
+
+typedef couloir* a_couloir;
 
 //--------------------------------------------------------------------------------
 
-void init(couloir *c, int largeur, const char *sequence);
+a_couloir creer_couloir(int largeur, const char *sequence);
 
 //--------------------------------------------------------------------------------
 
-void affiche(couloir *c);
+void affiche_couloir(couloir *c);
 
 //--------------------------------------------------------------------------------
 
@@ -56,7 +58,7 @@ void clean_tableau(couloir *c);
 
 //--------------------------------------------------------------------------------
 
-void sauvegarder_tableau(char *nom_fichier, couloir *c);
+int sauvegarder_couloir(couloir *c);
 
 //--------------------------------------------------------------------------------
 #endif 
