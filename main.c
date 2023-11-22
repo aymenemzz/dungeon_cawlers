@@ -9,46 +9,61 @@
 #include <math.h>
 #include "couloir.h" 
 #include "chambre.h"
-#include "dungeon.h"
 #include <time.h>
+#include "entites.h"
+#include "assemblage_chambre.h"
 
 //--------------------------------------------------------------------------------
 
 #define l 1// n est la largeur des couloirs, ici ils seront définis à 1, mais c'est tout a fait possible d'avoir une largeur personalisée
 int main(){
-    int check_response = 1;
-    char response[5];
-    a_dungeon current_dungeon = NULL;
 
-    do {
-        printf("BINEVENUE DANS LE DUNGEON CRAWLER CREATOR\n "
-               "\nQue souhaitez vous faire ?\n"
-               "    - Charger un donjon (L)\n"
-               "    - Creer un donjon (C)\n"
-               "    - Supprimer un donjon (D)\n"
-        );
-        fgets(response, 2, stdin);
-        switch (response[0]) {
-            case ('L'):
-                //REORIENT2 VERS LA FONCTION DE CHARGEMENT DES DONJONS
-                //PAS PRETE
-                check_response = 0;
-                break;
-            case ('C'):
-                current_dungeon = init_dungeon();
-                check_response = 0;
-                break;
-            case ('D'):
-                //REORIENT2 VERS LA FONCTION DE SUPPRESSION DES DONJONS
-                //PAS PRETE
-                check_response = 0;
-                break;
-            default:
-                printf("Le caractere n'as pas ete reconnu ou n'est pas dans la selection veuillez réessayer");
+a_salle s1 = creer_salle(10,22);
+ajout_entite(COFFRE, s1,3,5, 0);
+ajout_entite(AUTEL, s1, 8,3, 1);
+ajout_entite(PORTE,s1,0,4,0);
+affiche_salle(s1);
+sauvegarder_salle(s1);
+affiche_entites_salle(s1);
+printf("vérification\n");
+a_salle s3 = recup_salle("chambres/salle1.txt");
+affiche_salle(s3);
+affiche_entites_salle(s3);
+ajout_entite(BOSS,s3,7,20,0);
+ajout_entite(PIEGE,s3,4,15,0);
+ajout_entite(MONSTRE,s3,6,12,1);
+affiche_entites_salle(s3);
+affiche_salle(s3);
+sauvegarder_salle(s3);
+/*
+a_salle s2 = creer_salle(43,16);
+affiche_salle(s2);
+sauvegarder_salle(s2);
 
-        }
-    } while (check_response != 0);
+a_couloir c1 = creer_couloir(2,"SSSSSEEEESSS");
+affiche_couloir(c1);
+sauvegarder_couloir(c1);
 
+a_couloir c2 = creer_couloir(2,"NNNNNNNWWWWW");
+affiche_couloir(c2);
+sauvegarder_couloir(c2);
+
+a_salle s3 = recup_salle("chambres/salle1.txt");
+//printf("%d\n%d\n",s3->largeur,s3->longueur);
+affiche_salle(s3);
+sauvegarder_salle(s3);
+printf("%d\n",s3->id_salle);
+//free(c1);
+//free(s2);
+free(s3);
+free(s1);*/
+/*a_entite m1 = creer_entite(MONSTRE,5,8,1);
+a_entite b1 = creer_entite(BOSS,10,6,0);
+printf("%c\t(%d,%d)\n",m1->symbole,m1->x,m1->y);
+printf("%c\t(%d,%d)\n",b1->symbole,b1->x,b1->y);
+printf("%d\n", MONSTRE);
+printf("%s\n",avoir_type_entite(m1));
+printf("%s\n",avoir_type_entite(b1));*/
 return 0;
 }
 
