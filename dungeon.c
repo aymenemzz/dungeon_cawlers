@@ -45,6 +45,11 @@ void init_dungeon()
     scanf("%d", &input_width);
     the_dungeon->width = input_width;
 
+
+    // demande d'ajout de l'entree et de la sortie
+    add_entrance_exit(the_dungeon);
+
+
     // pour l'instant il n'y a riend dans le donjons donc on place les node container a NULL
     the_dungeon->contain = NULL;
 
@@ -64,6 +69,7 @@ void init_dungeon()
                "\t4)Ajouter l'entrée et la sortie\n\n\n"
                "\t5)Quitter", the_dungeon->name
         );
+        scanf("%d", &option);
         switch (option) {
             case 1:
                 save_dungeon(the_dungeon);
@@ -108,7 +114,17 @@ void print_dungeon(a_dungeon this)
             }
             else if (i == 0 || j == 0 || i == this->height-1)
             {
-                printf("#");
+                if (i == this->entrance)
+                {
+                    printf("E");
+                }
+                else if (i == this->exit)
+                {
+                    printf("X");
+                }
+                else {
+                    printf("#");
+                }
             }
             else
             {
@@ -120,11 +136,72 @@ void print_dungeon(a_dungeon this)
 
 
 // SAVE PARTS
+void save_dungeon(a_dungeon this)
+{
+    FILE* dungeon_file = find_or_create_dungeon_file(this);
+    if(dungeon_file == NULL)
+    {
+        printf("Impossible d'enregistrer votre donjon !");
+        return;
+    }
 
-FILE* save_dungeon(a_dungeon this){
-
+    general_write_on_dungeon(this, dungeon_file);
+    fclose(dungeon_file);
 }
 
+FILE* find_or_create_dungeon_file(a_dungeon this)
+{
+    FILE* fichier = NULL;
+    char name_with_extension[2*TAILLE_NAME];
+    snprintf(name_with_extension, 2*TAILLE_NAME, "dungeon/%s.txt", this->name);
+    fichier = fopen(name_with_extension, "w+");
+
+    if (fichier == NULL)
+    {
+        printf("Impossible d'ouvrir ou de creer le fichier");
+        return NULL;
+    }
+    else
+    {
+        return fichier;
+    }
+}
+
+void general_write_on_dungeon(a_dungeon this, FILE* dungeon_file)
+{
+    fprintf(dungeon_file, "%d >> id\n"
+                          "%d >> width\n"
+                          "%d >> height\n\n"
+                          "%d >> entrance\n"
+                          "%d >> exit\n\n"
+    );
+    node_write_on_dungeon(this->contain, dungeon_file);
+
+}
+void node_write_on_dungeon(a_node this, FILE* dungeon_file)
+{
+    if(this->next == NULL)
+    {
+        fprintf(dungeon_file, "%d - %d %s\n",this->coordinate->x, this->coordinate->y, this->name_of_file);
+        return;
+    }
+    else
+    {
+        node_write_on_dungeon(this->next, dungeon_file);
+        fprintf(dungeon_file, "%d - %d %s\n",this->coordinate->x, this->coordinate->y, this->name_of_file);
+
+    }
+}
+
+//ADD PARTS
+
+void add_entrance_exit(a_dungeon this)
+{
+    printf("Veuillez saisir la coordonée X a laquelle vous souhaitez placer l'entrée de votre donjon (en commencant par 0)");
+    scanf("%d", &this->entrance);
+    printf("Veuillez saisir la coordonée X a laquelle vous souhaitez placer la sortie de votre donjon (en commencant par 0)");
+    scanf("%d", &this->exit);
+}
 
 
 
