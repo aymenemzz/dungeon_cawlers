@@ -10,81 +10,91 @@
 //Variable statique pour maintenir le dernier identifiant attribué
 static int dernierIdAttribue_dungeon = 0;
 
-a_dungeon init_dungeon()
+void init_dungeon()
 {
     // Allocation de la memoire pour le donjon
     a_dungeon the_dungeon = malloc(sizeof(t_dungeon));
 
 
     // initialisation des variable. Les variables commencant par "input_" sont destiner a recuperer des information de la part de l'utilisateur
-    char input_height[3];
-    char input_width[3];
+    int input_height;
+    int input_width;
     char input_name[11];
 
-    int choosen_height;
-    int choosen_width;
     const int id = dernierIdAttribue_dungeon++;
 
 
 
     // definition du nom, le fichier s'appellera "Dungeon_[id]-[input_name]
-    printf("Vous avez choisis de creer un donjon !\n"
+    printf("Vous avez choisi de creer un donjon !\n"
            "Quel nom souhaitez-vous lui donner ? (10 caractere maximum)\n"
            "name : ");
-    fgets(input_name, 11, stdin);
-    input_name[strcspn(input_name, "\n")] = '\0';
+    scanf("%s", input_name);
     snprintf(the_dungeon->name, TAILLE_NAME, "Dungeon_%d-%s", id, input_name);
 
 
     //demande de dimension
-    printf("Entrez la hauteur souhaite pour votre donjon (maximum 99).\n"
+    printf("\nEntrez la hauteur souhaite pour votre donjon (maximum 99).\n"
            "Hauteur : ");
-    fgets(input_height, 3, stdin);
-    choosen_height = atoi(input_height);
-    the_dungeon->height = choosen_height;
+    scanf("%d", &input_height);
+    the_dungeon->height = input_height;
 
 
-    printf("Entrez la hauteur souhaite pour votre donjon (maximum 99).\n"
+    printf("\nEntrez la hauteur souhaite pour votre donjon (maximum 99).\n"
            "Hauteur : ");
-    fgets(input_width, 3, stdin);
-    choosen_width = atoi(input_width);
-    the_dungeon->width = choosen_width;
+    scanf("%d", &input_width);
+    the_dungeon->width = input_width;
 
     // pour l'instant il n'y a riend dans le donjons donc on place les node container a NULL
     the_dungeon->contain = NULL;
 
-    // afficher le donjon ?
-    char response[5];
-    int check = 1;
-    do {
-        printf("Voulez vous afficher votre donjon ? (Y/N)\n");
-        fgets(response, 2, stdin);
+    //appelle de la fonction pour afficher le donjons
+    print_dungeon(the_dungeon);
 
-        switch (response[0]) {
-            case 'Y':
-                print_dungeon(the_dungeon);
-                check = 0;
+    // Ouverture vers les autres fonction
+    int option;
+    int quit = 1;
+    do {
+
+        printf("/!\\ VOTRE DONJON N'EST PAS ENREGISTRE /!\\ \n "
+               "Que souhaitez-vous faire avec votre donjon ?\n"
+               "\t1)Enregistrer le donjon %s\n"
+               "\t2)Ajouter une salle\n"
+               "\t3)Ajouter un couloir\n"
+               "\t4)Ajouter l'entrée et la sortie\n\n\n"
+               "\t5)Quitter", the_dungeon->name
+        );
+        switch (option) {
+            case 1:
+                save_dungeon(the_dungeon);
                 break;
-            case 'N':
-                printf("Vous avez choisis de ne pas afficher votre donjon\n");
-                check = 0;
+            case 2:
+                add_room(the_dungeon);
+                //PAS PRET
+                break;
+            case 3:
+                add_corridor(the_dungeon);
+                //PAS PRET
+                break;
+            case 4:
+                add_entrance_exit(the_dungeon);
+            case 5:
+                quit = 0;
                 break;
             default:
-                printf("Votre reponse n'a pas ete reconnu veuillez reessayer");
+                printf("L'option choisis n'est pas reconnu ou n'est pas dans la selection. Veuillez réessayer !");
                 break;
         }
-    } while (check == 0);
-    return the_dungeon;
+    }while (quit != 0);
 }
+
 void free_dungeon_ram(a_dungeon this)
 {
     free(this);
 }
-FILE* save_dungeon(a_dungeon this){
-
-}
 
 
+// PRINT PARTS
 // affichage d'un donjon (doit etre present en memoire vive, l'extraction depuis les fichier se fais avec la fonction load_dungeon)
 void print_dungeon(a_dungeon this)
 {
@@ -92,11 +102,11 @@ void print_dungeon(a_dungeon this)
 
     for(int i = 0; i < this->height; i++){
         for(int j = 0; j < this->width; j++){
-            if (i == 0 || j == 0)
+            if (j == this->width-1)
             {
-                printf("#");
+                printf("#\n");
             }
-            else if (i == this->height-1 || j == this->width-1)
+            else if (i == 0 || j == 0 || i == this->height-1)
             {
                 printf("#");
             }
@@ -107,3 +117,15 @@ void print_dungeon(a_dungeon this)
         }
     }
 }
+
+
+// SAVE PARTS
+
+FILE* save_dungeon(a_dungeon this){
+
+}
+
+
+
+
+

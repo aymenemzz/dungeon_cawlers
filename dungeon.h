@@ -4,7 +4,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <time.h>
+#include <math.h>
+#include "couloir.h"
+#include "chambre.h"
 
 #define TAILLE_NAME 25
 
@@ -45,14 +48,22 @@ typedef struct s_dungeon {
 typedef t_dungeon* a_dungeon;
 
 // CREATION D'UN DONJON -----------------------
-
-a_dungeon init_dungeon();
+void init_dungeon();
 void free_dungeon_ram(a_dungeon this);
+
+// AJOUT DANS UN DONJON
+void add_corridor(a_dungeon);
+void add_room(a_dungeon);
+void add_entrance_exit(a_dungeon);
+
+// SAUVEGARDE D'UN DONJON DANS UN FICHIER .txt
 FILE* save_dungeon(a_dungeon this);
 
-//AFFICHAGE D'UN DONJON------------------------
+//AFFICHAGE------------------------
 void print_dungeon(a_dungeon this);
+void print_list_dungeon();
 
-
+// recuperation et affichage d'un donjon
+FILE* load_dungeon_by_id();
 
 #endif //DUNGEON_CAWLERS_DUNGEON_H
