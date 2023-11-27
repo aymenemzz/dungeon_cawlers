@@ -57,7 +57,7 @@ void free_dungeon_ram(a_dungeon this);
 void add_corridor(a_dungeon this);
 void add_room(a_dungeon this);
 void add_entrance_exit(a_dungeon this);
-void add_node_to_contain(a_node);
+void add_node_to_contain(a_node new_node, a_node previous_node);
 
 // SAUVEGARDE D'UN DONJON DANS UN FICHIER .txt
 void save_dungeon(a_dungeon this);
@@ -72,6 +72,7 @@ void print_list_room();
 void print_list_corridor();
 
 // recuperation et affichage d'un donjon
-FILE* load_dungeon_by_id();
+FILE* find_file_of_dungeon();
+a_dungeon load_dungeon(FILE* dungeon_file)
 
 #endif //DUNGEON_CAWLERS_DUNGEON_H

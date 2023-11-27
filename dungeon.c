@@ -10,6 +10,8 @@
 //Variable statique pour maintenir le dernier identifiant attribué
 static int dernierIdAttribue_dungeon = 0;
 
+// CREATE AND INIT PART
+
 void init_dungeon()
 {
     // Allocation de la memoire pour le donjon
@@ -92,6 +94,19 @@ void init_dungeon()
                 break;
         }
     }while (quit != 0);
+}
+
+a_node create_node(t_typeElement element, char* name_of_file, int x_coordinate, int y_coordinate)
+{
+    a_node new_node = malloc(sizeof(t_node));
+
+    new_node->element = element;
+    new_node->next = NULL;
+    new_node->coordinate->x = x_coordinate;
+    new_node->coordinate->y = y_coordinate;
+    new_node->name_of_file = name_of_file;
+
+    return new_node;
 }
 
 void free_dungeon_ram(a_dungeon this)
@@ -203,6 +218,30 @@ void add_entrance_exit(a_dungeon this)
     scanf("%d", &this->exit);
 }
 
+void add_node_to_contain(a_node new_node, a_node previous_node)
+{
+    if(previous_node->next == NULL)
+    {
+        previous_node->next = new_node;
+        return;
+    }
+    else
+    {
+        add_node_to_contain(new_node, previous_node->next);
+    }
+}
 
+void add_corridor(a_dungeon this)
+{
+    a_node new_corridor_node = NULL;
+
+    add_node_to_contain(new_corridor_node, this->contain);
+}
+void add_room(a_dungeon this)
+{
+    a_node new_room_node = NULL;
+
+    add_node_to_contain(new_room_node, this->contain);
+}
 
 

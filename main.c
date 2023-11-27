@@ -12,7 +12,6 @@
 int main(){
     int check_response = 1;
     int option;
-    a_dungeon current_dungeon = NULL;
 
     do {
         printf("BINEVENUE DANS LE DUNGEON CRAWLER CREATOR\n "
@@ -20,16 +19,16 @@ int main(){
                "\t1) Charger un donjon\n"
                "\t2) Creer un donjon\n"
                "\t3) Supprimer un donjon\n\n\n"
-               "\t4) Quitter"
+               "\t4) Quitter\n"
         );
-        scanf("%c", &option);
+        scanf("%d", &option);
         switch (option) {
             case (1):
                 //REORIENT2 VERS LA FONCTION DE CHARGEMENT DES DONJONS
                 //PAS PRETE
                 break;
             case (2):
-                current_dungeon = init_dungeon();
+                init_dungeon();
                 break;
             case (3):
                 //REORIENT2 VERS LA FONCTION DE SUPPRESSION DES DONJONS
